@@ -3,10 +3,10 @@ import { AppDataSource } from '../server';
 import { Mail } from '../entities/Mail';
 
 const router = Router();
-const mailRepository = AppDataSource.getRepository(Mail);
 
 // 获取邮件列表
 router.get('/', async (req, res) => {
+    const mailRepository = AppDataSource.getRepository(Mail);
     const { address } = req.auth as { address: string };
     const limit = parseInt(req.query.limit as string) || 10;
     const offset = parseInt(req.query.offset as string) || 0;
@@ -32,6 +32,7 @@ router.get('/', async (req, res) => {
 
 // 获取单个邮件
 router.get('/:id', async (req, res) => {
+    const mailRepository = AppDataSource.getRepository(Mail);
     const { address } = req.auth as { address: string };
     const { id } = req.params;
 
