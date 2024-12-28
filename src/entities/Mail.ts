@@ -5,16 +5,16 @@ export class Mail {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ type: 'varchar' })
     address: string;
 
-    @Column()
+    @Column({ type: 'varchar' })
     from: string;
 
-    @Column()
+    @Column({ type: 'varchar' })
     to: string;
 
-    @Column({ nullable: true })
+    @Column({ type: 'varchar', nullable: true })
     cc: string;
 
     @Column({ type: 'text' })
@@ -32,9 +32,9 @@ export class Mail {
     @Column({ type: 'jsonb', nullable: true })
     headers: any;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ type: 'timestamp' })
     created_at: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ type: 'timestamp' })
     updated_at: Date;
 } 
