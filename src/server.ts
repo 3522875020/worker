@@ -1,11 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { expressjwt as jwt } from 'express-jwt';
 import { DataSource } from 'typeorm';
-import { mailsRouter } from './routes/mails.js';
-import { authRouter } from './routes/auth.js';
-import { adminRouter } from './routes/admin.js';
-import { ImapService } from './services/imap_service.js';
-import { Mail } from './entities/Mail.js';
+import { mailsRouter } from './routes/mails';
+import { authRouter } from './routes/auth';
+import { ImapService } from './services/imap_service';
+import { Mail } from './entities/Mail';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -45,7 +44,6 @@ app.use(jwtMiddleware);
 // 路由
 app.use('/api/mails', mailsRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/admin', adminRouter);
 
 // 错误处理
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
