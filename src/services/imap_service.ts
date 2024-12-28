@@ -1,13 +1,14 @@
 import Imap from 'imap';
 import { simpleParser } from 'mailparser';
-import { AppDataSource } from '../server';
+import { AppDataSource } from '../data-source';
 import { Mail } from '../entities/Mail';
 import { EventEmitter } from 'events';
+import { Repository } from 'typeorm';
 
 export class ImapService extends EventEmitter {
     private imap: Imap;
     private isConnected: boolean = false;
-    private mailRepository = AppDataSource.getRepository(Mail);
+    private mailRepository: Repository<Mail>;
 
     constructor() {
         super();
@@ -19,6 +20,9 @@ export class ImapService extends EventEmitter {
             tls: true,
             tlsOptions: { rejectUnauthorized: false }
         });
+
+        // 初始化 repository
+        this.mailRepository = AppDataSource.getRepository(Mail);
 
         // 绑定事件处理器
         this.imap.on('ready', this.onReady.bind(this));

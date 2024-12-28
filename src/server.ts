@@ -30,28 +30,31 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(500).json({ message: 'Internal Server Error' });
 });
 
-// 初始化 IMAP 服务
-let imapService: ImapService;
-
 // 初始化数据库连接并启动服务器
 AppDataSource.initialize()
     .then(() => {
+        console.log('Database connection initialized');
+        
         app.listen(port, () => {
             console.log(`Server is running on port ${port}`);
             
-            // 启动 IMAP 服务
-            imapService = new ImapService();
-            imapService.connect();
+            try {
+                // 启动 IMAP 服务
+                const imapService = new ImapService();
+                imapService.connect();
 
-            // 监听新邮件事件
-            imapService.on('newMail', (mail) => {
-                console.log('New mail received:', mail.subject);
-            });
+                // 监听新邮件事件
+                imapService.on('newMail', (mail) => {
+                    console.log('New mail received:', mail.subject);
+                });
 
-            // 监听错误事件
-            imapService.on('error', (error) => {
-                console.error('IMAP service error:', error);
-            });
+                // 监听错误事件
+                imapService.on('error', (error) => {
+                    console.error('IMAP service error:', error);
+                });
+            } catch (error) {
+                console.error('Failed to initialize IMAP service:', error);
+            }
         });
     })
     .catch((error) => {
