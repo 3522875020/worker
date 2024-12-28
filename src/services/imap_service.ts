@@ -25,11 +25,19 @@ export class ImapService extends EventEmitter {
     constructor() {
         super();
 
+        // 检查必需的环境变量
+        const requiredEnvVars = ['IMAP_HOST', 'IMAP_PORT', 'IMAP_USER', 'IMAP_PASSWORD'];
+        const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+        
+        if (missingEnvVars.length > 0) {
+            throw new Error(`Missing required IMAP configuration: ${missingEnvVars.join(', ')}`);
+        }
+
         const config: ImapConfig = {
-            user: process.env.IMAP_USER || '',
-            password: process.env.IMAP_PASSWORD || '',
-            host: process.env.IMAP_HOST || '',
-            port: parseInt(process.env.IMAP_PORT || '993'),
+            user: process.env.IMAP_USER!,
+            password: process.env.IMAP_PASSWORD!,
+            host: process.env.IMAP_HOST!,
+            port: parseInt(process.env.IMAP_PORT!),
             tls: true,
             tlsOptions: { rejectUnauthorized: false }
         };
@@ -49,6 +57,17 @@ export class ImapService extends EventEmitter {
         if (!config.user || !config.password || !config.host || !config.port) {
             throw new Error('Invalid IMAP configuration: missing required fields');
         }
+
+        if (config.port <= 0 || config.port > 65535) {
+            throw new Error('Invalid IMAP port number');
+        }
+
+        console.log('IMAP Configuration:', {
+            host: config.host,
+            port: config.port,
+            user: config.user,
+            tls: config.tls
+        });
     }
 
     // 获取 repository
