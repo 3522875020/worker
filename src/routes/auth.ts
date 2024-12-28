@@ -4,10 +4,10 @@ import { AppDataSource } from '../server';
 import { User } from '../entities/User';
 
 const router = Router();
-const userRepository = AppDataSource.getRepository(User);
 
 // 用户注册
 router.post('/register', async (req, res) => {
+    const userRepository = AppDataSource.getRepository(User);
     const { email, password } = req.body;
 
     try {
@@ -40,6 +40,7 @@ router.post('/register', async (req, res) => {
 
 // 用户登录
 router.post('/login', async (req, res) => {
+    const userRepository = AppDataSource.getRepository(User);
     const { email, password } = req.body;
 
     try {

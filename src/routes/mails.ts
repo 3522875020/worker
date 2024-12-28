@@ -53,6 +53,7 @@ router.get('/:id', async (req, res) => {
 
 // 删除邮件
 router.delete('/:id', async (req, res) => {
+    const mailRepository = AppDataSource.getRepository(Mail);
     const { address } = req.auth as { address: string };
     const { id } = req.params;
 
