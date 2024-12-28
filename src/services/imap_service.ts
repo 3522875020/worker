@@ -39,11 +39,14 @@ export class ImapService extends EventEmitter {
             host: process.env.IMAP_HOST!,
             port: parseInt(process.env.IMAP_PORT!),
             tls: false,
-            debug: console.log, // 添加调试输出
-            autotls: false,    // 禁用自动 TLS
+            debug: console.log,
+            autotls: false,
             tlsOptions: { 
                 rejectUnauthorized: false 
-            }
+            },
+            authTimeout: 3000,
+            connTimeout: 10000,
+            keepalive: true
         };
 
         // 验证配置
@@ -190,7 +193,7 @@ export class ImapService extends EventEmitter {
         });
     }
 
-    // 获取邮��内容
+    // 获取邮件内容
     private fetchEmails(seqArr: number[]): void {
         const fetch = this.imap.fetch(seqArr, {
             bodies: '',
