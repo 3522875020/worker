@@ -38,12 +38,19 @@ export class ImapService extends EventEmitter {
             password: process.env.IMAP_PASSWORD!,
             host: process.env.IMAP_HOST!,
             port: parseInt(process.env.IMAP_PORT!),
-            tls: true,
+            tls: false,
             tlsOptions: { rejectUnauthorized: false }
         };
 
         // 验证配置
         this.validateConfig(config);
+
+        console.log('Creating IMAP connection with config:', {
+            host: config.host,
+            port: config.port,
+            user: config.user,
+            tls: config.tls
+        });
 
         this.imap = new Imap(config);
 
