@@ -33,13 +33,17 @@ export class ImapService extends EventEmitter {
             throw new Error(`Missing required IMAP configuration: ${missingEnvVars.join(', ')}`);
         }
 
-        const config: ImapConfig = {
+        const config = {
             user: process.env.IMAP_USER!,
             password: process.env.IMAP_PASSWORD!,
             host: process.env.IMAP_HOST!,
             port: parseInt(process.env.IMAP_PORT!),
             tls: false,
-            tlsOptions: { rejectUnauthorized: false }
+            debug: console.log, // 添加调试输出
+            autotls: false,    // 禁用自动 TLS
+            tlsOptions: { 
+                rejectUnauthorized: false 
+            }
         };
 
         // 验证配置
@@ -49,7 +53,8 @@ export class ImapService extends EventEmitter {
             host: config.host,
             port: config.port,
             user: config.user,
-            tls: config.tls
+            tls: config.tls,
+            autotls: config.autotls
         });
 
         this.imap = new Imap(config);
@@ -185,7 +190,7 @@ export class ImapService extends EventEmitter {
         });
     }
 
-    // 获取邮件内容
+    // 获取邮��内容
     private fetchEmails(seqArr: number[]): void {
         const fetch = this.imap.fetch(seqArr, {
             bodies: '',
