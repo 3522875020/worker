@@ -1,6 +1,10 @@
 import { DataSource } from "typeorm";
 import { Mail } from "./entities/Mail";
 import { User } from "./entities/User";
+import * as fs from 'fs';
+import * as path from 'path';
+
+const ca = fs.readFileSync(path.join(__dirname, '../ca.crt')).toString();
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -16,6 +20,6 @@ export const AppDataSource = new DataSource({
     migrations: [],
     ssl: {
         rejectUnauthorized: true,
-        ca: process.env.DB_SSL_CA
+        ca
     }
 }); 
