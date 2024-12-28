@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express, { Request, Response, NextFunction } from 'express';
 import { expressjwt as jwt } from 'express-jwt';
 import { DataSource } from 'typeorm';
