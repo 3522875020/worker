@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
-import { AppDataSource } from '../server';
+import { AppDataSource } from '../data-source';
 import { User } from '../entities/User';
 
 const router = Router();

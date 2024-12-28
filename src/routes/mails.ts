@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { AppDataSource } from '../server';
+import { AppDataSource } from '../data-source';
 import { Mail } from '../entities/Mail';
 
 const router = Router();
